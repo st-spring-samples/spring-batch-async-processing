@@ -1,6 +1,6 @@
 #! /bin/bash
 
-WORK_DIR="$HOME/temp"
+WORK_DIR="$HOME"
 RIDE_INFO_FILE="$WORK_DIR/rideinfo.csv"
 H2_ZIP_NAME="$WORK_DIR/h2-2019-03-13.zip"
 H2_DATA_DIR="$WORK_DIR/h2-data"
