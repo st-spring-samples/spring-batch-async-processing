@@ -30,7 +30,7 @@ public class AsyncBatchDemoApplicationTests {
 	}
 
 	private JobParameters buildJobParameters() {
-		return buildJobParameters("rideinfo.csv");
+		return buildJobParameters("src/test/resources/rideinfo.csv");
 	}
 
 	private JobParameters buildJobParameters(String filePath) {

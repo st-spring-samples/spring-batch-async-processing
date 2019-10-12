@@ -7,3 +7,8 @@ spring:
     username: sa
     password:
     driver-class-name: org.h2.Driver
+  profiles:
+    active:
+    - test
+thread:
+  count: 1

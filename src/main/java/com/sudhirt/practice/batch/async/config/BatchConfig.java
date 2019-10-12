@@ -1,8 +1,11 @@
 package com.sudhirt.practice.batch.async.config;
 
+import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 import com.sudhirt.practice.batch.async.dto.RideInfoItem;
+import com.sudhirt.practice.batch.async.listener.ChunkCountListener;
 import com.sudhirt.practice.batch.async.mapper.RideInfoFieldSetMapper;
+import com.sudhirt.practice.batch.async.tasklet.CleanupTasklet;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -28,19 +31,34 @@ public class BatchConfig {
 
 	private static final String OVERRIDDEN_BY_EXPRESSION = null;
 
+	@Value("${thread.count}")
+	private Integer threadCount;
+
 	@Autowired
 	private DataSource dataSource;
 
-	@Bean
-	public Job job(JobBuilderFactory jobBuilderFactory, StepBuilderFactory stepBuilderFactory) {
-		return jobBuilderFactory.get("job").incrementer(new RunIdIncrementer()).flow(step(stepBuilderFactory)).end()
-				.build();
+	@PostConstruct
+	public void initialize() {
+		if (threadCount == null) {
+			threadCount = 1;
+		}
 	}
 
 	@Bean
-	public Step step(StepBuilderFactory stepBuilderFactory) {
-		return stepBuilderFactory.get("step").<RideInfoItem, RideInfoItem>chunk(1000)
-				.reader(fileReader(OVERRIDDEN_BY_EXPRESSION)).writer(jdbcWriter())
+	public Job job(JobBuilderFactory jobBuilderFactory, StepBuilderFactory stepBuilderFactory) {
+		return jobBuilderFactory.get("job").incrementer(new RunIdIncrementer()).flow(cleanupStep(stepBuilderFactory))
+				.next(processStep(stepBuilderFactory)).end().build();
+	}
+
+	@Bean
+	public Step cleanupStep(StepBuilderFactory stepBuilderFactory) {
+		return stepBuilderFactory.get("cleanupStep").tasklet(new CleanupTasklet(dataSource)).build();
+	}
+
+	@Bean
+	public Step processStep(StepBuilderFactory stepBuilderFactory) {
+		return stepBuilderFactory.get("processStep").<RideInfoItem, RideInfoItem>chunk(1000)
+				.reader(fileReader(OVERRIDDEN_BY_EXPRESSION)).writer(jdbcWriter()).listener(new ChunkCountListener())
 				.taskExecutor(taskExecutor()).build();
 	}
 
@@ -74,7 +92,7 @@ public class BatchConfig {
 	@Bean
 	public TaskExecutor taskExecutor() {
 		SimpleAsyncTaskExecutor taskExecutor = new SimpleAsyncTaskExecutor();
-		taskExecutor.setConcurrencyLimit(4);
+		taskExecutor.setConcurrencyLimit(threadCount);
 		return taskExecutor;
 	}
 
