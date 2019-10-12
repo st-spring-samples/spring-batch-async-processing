@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/st-spring-samples/spring-batch-async-processing.svg?branch=master)](https://travis-ci.com/st-spring-samples/spring-batch-async-processing)
+[![Build Status](https://travis-ci.com/st-spring-samples/spring-batch-async.svg?branch=master)](https://travis-ci.com/st-spring-samples/spring-batch-async)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=com.sudhirt.practice.batch%3Aspring-batch-async-processing&metric=alert_status)](https://sonarcloud.io/dashboard?id=com.sudhirt.practice.batch%3Aspring-batch-async-processing)
 # Spring batch - async processing
 Sample application that demonstrates asynchronous processing to improve batch job performance.
