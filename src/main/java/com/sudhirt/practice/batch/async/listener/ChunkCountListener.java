@@ -9,7 +9,7 @@ public class ChunkCountListener extends ChunkListenerSupport {
 
 	@Override
 	public void afterChunk(ChunkContext chunkContext) {
-		int count = chunkContext.getStepContext().getStepExecution().getWriteCount();
+		var count = chunkContext.getStepContext().getStepExecution().getWriteCount();
 		if (count > 0 && count % 100000 == 0) {
 			log.info(count + "records processed");
 		}

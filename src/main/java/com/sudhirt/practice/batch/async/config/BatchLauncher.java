@@ -1,7 +1,6 @@
 package com.sudhirt.practice.batch.async.config;
 
 import org.springframework.batch.core.Job;
-import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +20,7 @@ public class BatchLauncher implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		JobParameters params = new JobParametersBuilder().addString("pathToFile", args[0])
+		var params = new JobParametersBuilder().addString("pathToFile", args[0])
 				.addLong("launchTime", System.currentTimeMillis()).toJobParameters();
 		jobLauncher.run(job, params);
 	}

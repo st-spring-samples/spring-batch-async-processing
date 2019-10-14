@@ -76,7 +76,7 @@ public class BatchConfig {
 
 	@Bean
 	public JdbcBatchItemWriter<RideInfoItem> jdbcWriter() {
-		JdbcBatchItemWriter<RideInfoItem> itemWriter = new JdbcBatchItemWriter<>();
+		var itemWriter = new JdbcBatchItemWriter<RideInfoItem>();
 		itemWriter.setDataSource(dataSource);
 		itemWriter.setItemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<RideInfoItem>());
 		itemWriter.setSql(
@@ -91,7 +91,7 @@ public class BatchConfig {
 
 	@Bean
 	public TaskExecutor taskExecutor() {
-		SimpleAsyncTaskExecutor taskExecutor = new SimpleAsyncTaskExecutor();
+		var taskExecutor = new SimpleAsyncTaskExecutor();
 		taskExecutor.setConcurrencyLimit(threadCount);
 		return taskExecutor;
 	}

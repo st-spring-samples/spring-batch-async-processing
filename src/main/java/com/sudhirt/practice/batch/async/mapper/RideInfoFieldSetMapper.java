@@ -9,7 +9,7 @@ public class RideInfoFieldSetMapper implements FieldSetMapper<RideInfoItem> {
 
 	@Override
 	public RideInfoItem mapFieldSet(FieldSet fieldSet) throws BindException {
-		RideInfoItem item = new RideInfoItem();
+		var item = new RideInfoItem();
 		item.setVendorId(fieldSet.readString("vendorId"));
 		item.setStartTime(fieldSet.readString("startTime"));
 		item.setEndTime(fieldSet.readString("endTime"));
