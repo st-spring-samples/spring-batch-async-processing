@@ -40,8 +40,8 @@ java -cp $WORK_DIR/h2/bin/h2-1.4.199.jar org.h2.tools.RunScript \
 -user sa -password "" \
 -script src/test/resources/sql/create.sql &&
 echo "Database tables created successfully"
-mvn spring-boot:run \
--Dthread.count=4 \
--Dspring.datasource.url="jdbc:h2:tcp://127.0.1.1:9092/$WORK_DIR/h2-data/yellow-taxi" \
--Dspring-boot.run.arguments="$RIDE_INFO_FILE" &&
+java -jar target/spring-batch-async-processing-0.0.1-SNAPSHOT.jar \
+$RIDE_INFO_FILE \
+--thread.count=4 \
+--spring.datasource.url="jdbc:h2:tcp://127.0.1.1:9092/$WORK_DIR/h2-data/yellow-taxi" &&
 kill $pid
