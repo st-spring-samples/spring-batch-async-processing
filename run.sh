@@ -28,7 +28,7 @@ fi
 # Extract H2 database
 if [ ! -d "h2" ]; then
     echo "Extracting H2 database..."
-    unzip $H2_ZIP_NAME -d $WORK_DIR/
+    unzip -n $H2_ZIP_NAME -d $WORK_DIR/
 fi
 
 # Launch H2 database, run batch and kill H2 process
