@@ -67,10 +67,10 @@ public class BatchConfig {
 	public FlatFileItemReader<RideInfoItem> fileReader(@Value("#{jobParameters[pathToFile]}") String pathToFile) {
 		return new FlatFileItemReaderBuilder<RideInfoItem>().name("transactionReader")
 				.resource(new FileSystemResource(pathToFile)).delimited()
-				.names(new String[] { "vendorId", "startTime", "endTime", "passengerCount", "tripDistance", "rateCode",
+				.names("vendorId", "startTime", "endTime", "passengerCount", "tripDistance", "rateCode",
 						"storeAndFwdFlag", "pickupLocationId", "dropoffLocationId", "paymentType", "fareAmount",
 						"extra", "mtaTax", "tipAmount", "tollAmount", "improvementSurcharge", "totalAmount",
-						"congestionSurcharge" })
+						"congestionSurcharge")
 				.linesToSkip(1).fieldSetMapper(new RideInfoFieldSetMapper()).build();
 	}
 
